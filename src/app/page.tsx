@@ -13,17 +13,13 @@ export default function Home() {
   return (
     <main className="bg-[#0d1119] text-white">
       <section className="relative overflow-hidden bg-[#0d1119] pt-[94px] sm:h-[86svh] sm:min-h-[620px] sm:pt-0">
-        <video
-          className="relative aspect-video h-auto w-full object-contain sm:absolute sm:inset-0 sm:h-full"
-          src="/demo/newslab-overview.mp4"
-          poster="/demo/newslab-overview-poster.png"
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls
-          preload="metadata"
-          aria-label="NewsLab function tour"
+        <iframe
+          className="relative aspect-video h-auto w-full sm:absolute sm:inset-0 sm:h-full"
+          src="https://www.youtube.com/embed/W3VDX3_A7b4"
+          title="NewsLab — OpenAI Build Week pitch"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
         />
 
         <header className="absolute inset-x-0 top-0 z-10 flex flex-wrap items-center justify-between gap-3 border-b border-white/15 bg-[#0d1119]/90 px-5 py-4 sm:px-8">
