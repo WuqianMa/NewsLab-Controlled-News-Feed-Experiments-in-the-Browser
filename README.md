@@ -2,10 +2,20 @@
 
 NewsLab is a configurable prototype for running controlled news-feed experiments in a web browser. Researchers define the study design; the platform provides the experiment editor, participant experience, behavioral event capture, review workflow, and structured exports.
 
-[![Watch the NewsLab Build Week pitch](https://img.youtube.com/vi/pGXqZRa1eiw/maxresdefault.jpg)](https://youtu.be/pGXqZRa1eiw)
+## NewsLab Build Week Pitch
 
-**[▶ Watch the 62-second subtitled Build Week pitch](https://youtu.be/pGXqZRa1eiw)**
-The demonstration explains the software's functions. It does not claim that the included example content, conditions, or measurements are valid for a particular research question. Those decisions remain with the research team and its ethics review process.
+[![Watch the NewsLab Build Week pitch](https://img.youtube.com/vi/W3VDX3_A7b4/maxresdefault.jpg)](https://youtu.be/W3VDX3_A7b4)
+
+**[▶ Watch the NewsLab Build Week pitch on YouTube](https://youtu.be/W3VDX3_A7b4)**
+
+## Usage Demonstration
+
+[![Watch the NewsLab usage demonstration](https://img.youtube.com/vi/pGXqZRa1eiw/maxresdefault.jpg)](https://youtu.be/pGXqZRa1eiw)
+
+**[▶ Watch the 62-second subtitled usage demonstration on YouTube](https://youtu.be/pGXqZRa1eiw)**
+
+The usage demonstration explains the software’s functions. It does not claim that the included example content, experimental conditions, or measurements are valid for any particular research question. These decisions remain with the research team and its ethics review process.
+
 
 ## How Codex & GPT-5.6 were used
 
