@@ -2,7 +2,7 @@
 
 NewsLab is a configurable prototype for running controlled news-feed experiments in a web browser. Researchers define the study design; the platform provides the experiment editor, participant experience, behavioral event capture, review workflow, and structured exports.
 
-[![Watch the NewsLab Build Week pitch](https://img.youtube.com/vi/MgaqDuegEVQ/maxresdefault.jpg)](https://youtu.be/MgaqDuegEVQ)
+[![Watch the NewsLab Build Week pitch](https://img.youtube.com/vi/MgaqDuegEVQ/maxresdefault.jpg)](https://youtu.be/pGXqZRa1eiw)
 
 **[▶ Watch the 62-second subtitled Build Week pitch](https://youtu.be/MgaqDuegEVQ)**
 
