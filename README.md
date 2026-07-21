@@ -39,20 +39,6 @@ Codex was used to:
 
 Most of the final code implementation was therefore completed by Codex on top of the foundation created by Claude Fable.
 
-### GPT-5.6: research framing and project communication
-
-GPT-5.6 was not the primary coding agent for NewsLab.
-
-I used it mainly to clarify what the project was actually about and to communicate that idea coherently. It helped me:
-
-- Connect NewsLab to Hugo Mercier’s arguments about reasoning and epistemic vigilance.
-- Move away from presenting the project as another fake-news detector.
-- Distinguish attention, clicking, engagement, belief, and persuasion.
-- Identify the central project question: **are people really as easy to fool as we assume?**
-- Review the product positioning and experimental interpretation.
-- Write and refine the project story, elevator pitch, README, and Hackathon submission.
-
-In this workflow, Codex focused on making the software work, while GPT-5.6 helped explain why the project matters.
 
 
 
