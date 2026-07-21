@@ -4,7 +4,7 @@ NewsLab is a configurable prototype for running controlled news-feed experiments
 
 [![Watch the NewsLab Build Week pitch](https://img.youtube.com/vi/MgaqDuegEVQ/maxresdefault.jpg)](https://youtu.be/pGXqZRa1eiw)
 
-**[▶ Watch the 62-second subtitled Build Week pitch](https://youtu.be/MgaqDuegEVQ)**
+**[▶ Watch the 62-second subtitled Build Week pitch](https://youtu.be/pGXqZRa1eiw)**
 
 The demonstration explains the software's functions. It does not claim that the included example content, conditions, or measurements are valid for a particular research question. Those decisions remain with the research team and its ethics review process.
 
