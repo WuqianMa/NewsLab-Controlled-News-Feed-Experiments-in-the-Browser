@@ -1,0 +1,17 @@
+NewsLab turns a research plan into a controlled, browser-based news-feed study.
+
+Researchers configure assignment, sample targets, consent, completion, and condition-specific feed controls in one experiment workspace.
+
+Articles become approved content sets, with direct control over the sequence delivered to each condition.
+
+Optional AI providers can propose article variants. Every result enters a side-by-side human review before approval.
+
+Participants enter through study-specific consent, then continue into the experience assigned to their condition.
+
+The responsive feed supports scrolling, article views, and like, share, or save controls while recording each interaction.
+
+The configured survey follows naturally, supporting Likert, choice, and optional free-text questions.
+
+Back in the researcher workspace, participant and session summaries show progress while keeping preview records separate.
+
+Finally, NewsLab exports events, participants, exposures, and survey responses as structured CSV files with a data dictionary. Researchers define the questions; NewsLab runs the workflow.

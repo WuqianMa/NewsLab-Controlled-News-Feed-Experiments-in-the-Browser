@@ -1,0 +1,42 @@
+{
+  "name": "newslab",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "vercel-build": "prisma generate --schema prisma/postgres/schema.prisma && prisma migrate deploy --schema prisma/postgres/schema.prisma && next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test": "tsx --test tests/*.test.ts",
+    "check": "npm run typecheck && npm test && npm run build",
+    "db:seed": "prisma db seed",
+    "db:deploy:postgres": "prisma migrate deploy --schema prisma/postgres/schema.prisma",
+    "db:seed:postgres": "prisma db seed --schema prisma/postgres/schema.prisma",
+    "db:backup": "node -e \"const fs=require('fs');const d=new Date().toISOString().replace(/[:.]/g,'-');fs.copyFileSync('prisma/dev.db','prisma/backup-'+d+'.db');console.log('backup written')\""
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.110.0",
+    "@prisma/client": "6.19.3",
+    "bcryptjs": "^3.0.2",
+    "jose": "^6.0.0",
+    "next": "15.5.20",
+    "openai": "^4.104.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "prisma": "6.19.3",
+    "tailwindcss": "^4.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

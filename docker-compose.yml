@@ -1,0 +1,32 @@
+# NOT VERIFIED LOCALLY — no Docker on the dev machine (fable/09).
+# Prereq: switch prisma provider to postgresql (docs/DEPLOYMENT.md §2).
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://newslab:${POSTGRES_PASSWORD:-newslab}@db:5432/newslab
+      APP_SECRET: ${APP_SECRET:?set APP_SECRET in .env}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@newslab.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD in .env}
+      LLM_PROVIDER: ${LLM_PROVIDER:-demo}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: newslab
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-newslab}
+      POSTGRES_DB: newslab
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U newslab"]
+      interval: 5s
+      retries: 10
+volumes:
+  pgdata:

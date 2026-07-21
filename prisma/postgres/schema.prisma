@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Researcher {
+  id            String        @id @default(uuid())
+  email         String        @unique
+  passwordHash  String
+  name          String
+  role          String        @default("admin")
+  createdAt     DateTime      @default(now())
+  experiments   Experiment[]
+  approvedItems ContentItem[] @relation("Approver")
+}
+
+model Experiment {
+  id                    String        @id @default(uuid())
+  researcherId          String
+  researcher            Researcher    @relation(fields: [researcherId], references: [id])
+  name                  String
+  slug                  String        @unique
+  description           String        @default("")
+  status                String        @default("draft")
+  assignmentMethod      String        @default("balanced")
+  targetSampleSize      Int?
+  welcomeContent        String        @default("")
+  consentVersion        Int           @default(1)
+  completionContent     String        @default("")
+  completionRedirectUrl String?
+  completionCode        String?
+  surveyJson            Json?
+  resumeWindowHours     Int           @default(24)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  conditions            Condition[]
+  contentSets           ContentSet[]
+  participants          Participant[]
+}
+
+model Condition {
+  id                   String        @id @default(uuid())
+  experimentId         String
+  experiment           Experiment    @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  label                String
+  description          String        @default("")
+  contentSetId         String?
+  contentSet           ContentSet?   @relation(fields: [contentSetId], references: [id])
+  feedLayout           String        @default("vertical")
+  feedOrder            String        @default("fixed")
+  maxItems             Int?
+  timeLimitSeconds     Int?
+  showSourceLabels     Boolean       @default(true)
+  showEngagementCounts Boolean       @default(true)
+  showActionBar        Boolean       @default(true)
+  customCssClass       String?
+  weight               Float         @default(1.0)
+  createdAt            DateTime      @default(now())
+  participants         Participant[]
+}
+
+model ContentSet {
+  id           String           @id @default(uuid())
+  name         String
+  experimentId String
+  experiment   Experiment       @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  createdAt    DateTime         @default(now())
+  items        ContentSetItem[]
+  conditions   Condition[]
+}
+
+model ContentItem {
+  id              String           @id @default(uuid())
+  title           String
+  body            String
+  snippet         String           @default("")
+  sourceName      String
+  sourceLogoUrl   String?
+  thumbnailUrl    String?
+  category        String           @default("general")
+  publishedAt     DateTime         @default(now())
+  isFiller        Boolean          @default(false)
+  sourceItemId    String?
+  sourceItem      ContentItem?     @relation("Variants", fields: [sourceItemId], references: [id])
+  variants        ContentItem[]    @relation("Variants")
+  variantType     String?
+  generationLogId String?          @unique
+  generationLog   GenerationLog?   @relation(fields: [generationLogId], references: [id])
+  approved        Boolean          @default(true)
+  approvedAt      DateTime?
+  approvedById    String?
+  approvedBy      Researcher?      @relation("Approver", fields: [approvedById], references: [id])
+  fakeLikes       Int?
+  fakeComments    Int?
+  fakeViews       Int?
+  metadata        Json?
+  createdAt       DateTime         @default(now())
+  setItems        ContentSetItem[]
+}
+
+model ContentSetItem {
+  contentSetId  String
+  contentSet    ContentSet  @relation(fields: [contentSetId], references: [id], onDelete: Cascade)
+  contentItemId String
+  contentItem   ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  position      Int
+
+  @@id([contentSetId, contentItemId])
+}
+
+model GenerationLog {
+  id                String       @id @default(uuid())
+  sourceItemId      String
+  templateName      String
+  templateVariables Json
+  llmProvider       String
+  llmModel          String
+  llmTemperature    Float
+  rawRequest        String
+  rawResponse       String
+  createdAt         DateTime     @default(now())
+  outputItem        ContentItem?
+}
+
+model Participant {
+  id              String           @id @default(uuid())
+  experimentId    String
+  experiment      Experiment       @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+  conditionId     String
+  condition       Condition        @relation(fields: [conditionId], references: [id])
+  externalId      String?
+  status          String           @default("consented")
+  consentVersion  Int
+  consentedAt     DateTime         @default(now())
+  feedItemOrder   Json
+  isPilot         Boolean          @default(false)
+  isPreview       Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  sessions        Session[]
+  surveyResponses SurveyResponse[]
+
+  @@unique([experimentId, externalId])
+}
+
+model Session {
+  id             String      @id @default(uuid())
+  participantId  String
+  participant    Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  status         String      @default("active")
+  startedAt      DateTime    @default(now())
+  endedAt        DateTime?
+  lastCheckpoint Json?
+  userAgent      String      @default("")
+  screenWidth    Int?
+  screenHeight   Int?
+  events         Event[]
+}
+
+model Event {
+  id               String   @id
+  sessionId        String
+  session          Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  tabId            String   @default("")
+  eventType        String
+  payload          Json?
+  clientTimestamp  BigInt
+  serverReceivedAt DateTime @default(now())
+
+  @@index([sessionId, clientTimestamp])
+  @@index([eventType])
+}
+
+model SurveyResponse {
+  id             String      @id @default(uuid())
+  participantId  String
+  participant    Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  questionId     String
+  questionPrompt String
+  answer         String
+  createdAt      DateTime    @default(now())
+
+  @@unique([participantId, questionId])
+}

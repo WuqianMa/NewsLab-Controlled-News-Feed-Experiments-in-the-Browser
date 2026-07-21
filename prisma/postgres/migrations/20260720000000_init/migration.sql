@@ -1,0 +1,202 @@
+-- CreateSchema
+CREATE SCHEMA IF NOT EXISTS "public";
+
+-- CreateTable
+CREATE TABLE "Researcher" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "passwordHash" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'admin',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Researcher_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Experiment" (
+    "id" TEXT NOT NULL,
+    "researcherId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "description" TEXT NOT NULL DEFAULT '',
+    "status" TEXT NOT NULL DEFAULT 'draft',
+    "assignmentMethod" TEXT NOT NULL DEFAULT 'balanced',
+    "targetSampleSize" INTEGER,
+    "welcomeContent" TEXT NOT NULL DEFAULT '',
+    "consentVersion" INTEGER NOT NULL DEFAULT 1,
+    "completionContent" TEXT NOT NULL DEFAULT '',
+    "completionRedirectUrl" TEXT,
+    "completionCode" TEXT,
+    "surveyJson" JSONB,
+    "resumeWindowHours" INTEGER NOT NULL DEFAULT 24,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Experiment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Condition" (
+    "id" TEXT NOT NULL,
+    "experimentId" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "description" TEXT NOT NULL DEFAULT '',
+    "contentSetId" TEXT,
+    "feedLayout" TEXT NOT NULL DEFAULT 'vertical',
+    "feedOrder" TEXT NOT NULL DEFAULT 'fixed',
+    "maxItems" INTEGER,
+    "timeLimitSeconds" INTEGER,
+    "showSourceLabels" BOOLEAN NOT NULL DEFAULT true,
+    "showEngagementCounts" BOOLEAN NOT NULL DEFAULT true,
+    "showActionBar" BOOLEAN NOT NULL DEFAULT true,
+    "customCssClass" TEXT,
+    "weight" DOUBLE PRECISION NOT NULL DEFAULT 1.0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Condition_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ContentSet" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "experimentId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ContentSet_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ContentItem" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "body" TEXT NOT NULL,
+    "snippet" TEXT NOT NULL DEFAULT '',
+    "sourceName" TEXT NOT NULL,
+    "sourceLogoUrl" TEXT,
+    "thumbnailUrl" TEXT,
+    "category" TEXT NOT NULL DEFAULT 'general',
+    "publishedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "isFiller" BOOLEAN NOT NULL DEFAULT false,
+    "sourceItemId" TEXT,
+    "variantType" TEXT,
+    "generationLogId" TEXT,
+    "approved" BOOLEAN NOT NULL DEFAULT true,
+    "approvedAt" TIMESTAMP(3),
+    "approvedById" TEXT,
+    "fakeLikes" INTEGER,
+    "fakeComments" INTEGER,
+    "fakeViews" INTEGER,
+    "metadata" JSONB,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "ContentItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ContentSetItem" (
+    "contentSetId" TEXT NOT NULL,
+    "contentItemId" TEXT NOT NULL,
+    "position" INTEGER NOT NULL,
+
+    CONSTRAINT "ContentSetItem_pkey" PRIMARY KEY ("contentSetId","contentItemId")
+);
+
+-- CreateTable
+CREATE TABLE "GenerationLog" (
+    "id" TEXT NOT NULL,
+    "sourceItemId" TEXT NOT NULL,
+    "templateName" TEXT NOT NULL,
+    "templateVariables" JSONB NOT NULL,
+    "llmProvider" TEXT NOT NULL,
+    "llmModel" TEXT NOT NULL,
+    "llmTemperature" DOUBLE PRECISION NOT NULL,
+    "rawRequest" TEXT NOT NULL,
+    "rawResponse" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "GenerationLog_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Participant" (
+    "id" TEXT NOT NULL,
+    "experimentId" TEXT NOT NULL,
+    "conditionId" TEXT NOT NULL,
+    "externalId" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'consented',
+    "consentVersion" INTEGER NOT NULL,
+    "consentedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "feedItemOrder" JSONB NOT NULL,
+    "isPilot" BOOLEAN NOT NULL DEFAULT false,
+    "isPreview" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Participant_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Session" (
+    "id" TEXT NOT NULL,
+    "participantId" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'active',
+    "startedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endedAt" TIMESTAMP(3),
+    "lastCheckpoint" JSONB,
+    "userAgent" TEXT NOT NULL DEFAULT '',
+    "screenWidth" INTEGER,
+    "screenHeight" INTEGER,
+
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Event" (
+    "id" TEXT NOT NULL,
+    "sessionId" TEXT NOT NULL,
+    "tabId" TEXT NOT NULL DEFAULT '',
+    "eventType" TEXT NOT NULL,
+    "payload" JSONB,
+    "clientTimestamp" BIGINT NOT NULL,
+    "serverReceivedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "SurveyResponse" (
+    "id" TEXT NOT NULL,
+    "participantId" TEXT NOT NULL,
+    "questionId" TEXT NOT NULL,
+    "questionPrompt" TEXT NOT NULL,
+    "answer" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "SurveyResponse_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Researcher_email_key" ON "Researcher"("email");
+CREATE UNIQUE INDEX "Experiment_slug_key" ON "Experiment"("slug");
+CREATE UNIQUE INDEX "ContentItem_generationLogId_key" ON "ContentItem"("generationLogId");
+CREATE UNIQUE INDEX "Participant_experimentId_externalId_key" ON "Participant"("experimentId", "externalId");
+CREATE INDEX "Event_sessionId_clientTimestamp_idx" ON "Event"("sessionId", "clientTimestamp");
+CREATE INDEX "Event_eventType_idx" ON "Event"("eventType");
+CREATE UNIQUE INDEX "SurveyResponse_participantId_questionId_key" ON "SurveyResponse"("participantId", "questionId");
+
+-- AddForeignKey
+ALTER TABLE "Experiment" ADD CONSTRAINT "Experiment_researcherId_fkey" FOREIGN KEY ("researcherId") REFERENCES "Researcher"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Condition" ADD CONSTRAINT "Condition_experimentId_fkey" FOREIGN KEY ("experimentId") REFERENCES "Experiment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Condition" ADD CONSTRAINT "Condition_contentSetId_fkey" FOREIGN KEY ("contentSetId") REFERENCES "ContentSet"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ContentSet" ADD CONSTRAINT "ContentSet_experimentId_fkey" FOREIGN KEY ("experimentId") REFERENCES "Experiment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ContentItem" ADD CONSTRAINT "ContentItem_sourceItemId_fkey" FOREIGN KEY ("sourceItemId") REFERENCES "ContentItem"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ContentItem" ADD CONSTRAINT "ContentItem_generationLogId_fkey" FOREIGN KEY ("generationLogId") REFERENCES "GenerationLog"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ContentItem" ADD CONSTRAINT "ContentItem_approvedById_fkey" FOREIGN KEY ("approvedById") REFERENCES "Researcher"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ContentSetItem" ADD CONSTRAINT "ContentSetItem_contentSetId_fkey" FOREIGN KEY ("contentSetId") REFERENCES "ContentSet"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ContentSetItem" ADD CONSTRAINT "ContentSetItem_contentItemId_fkey" FOREIGN KEY ("contentItemId") REFERENCES "ContentItem"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Participant" ADD CONSTRAINT "Participant_experimentId_fkey" FOREIGN KEY ("experimentId") REFERENCES "Experiment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Participant" ADD CONSTRAINT "Participant_conditionId_fkey" FOREIGN KEY ("conditionId") REFERENCES "Condition"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Session" ADD CONSTRAINT "Session_participantId_fkey" FOREIGN KEY ("participantId") REFERENCES "Participant"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Event" ADD CONSTRAINT "Event_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "Session"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "SurveyResponse" ADD CONSTRAINT "SurveyResponse_participantId_fkey" FOREIGN KEY ("participantId") REFERENCES "Participant"("id") ON DELETE CASCADE ON UPDATE CASCADE;

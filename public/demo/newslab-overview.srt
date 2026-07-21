@@ -1,0 +1,75 @@
+1
+00:00:00,000 --> 00:00:04,130
+NewsLab turns a research plan into a controlled, browser-based news-feed study.
+
+2
+00:00:04,130 --> 00:00:08,535
+Researchers configure assignment, sample targets, consent, completion, and
+
+3
+00:00:08,535 --> 00:00:12,390
+condition-specific feed controls in one experiment workspace.
+
+4
+00:00:12,390 --> 00:00:15,313
+Articles become approved content sets, with direct control
+
+5
+00:00:15,313 --> 00:00:17,870
+over the sequence delivered to each condition.
+
+6
+00:00:17,870 --> 00:00:20,688
+Optional AI providers can propose article variants.
+
+7
+00:00:20,688 --> 00:00:24,310
+Every result enters a side-by-side human review before approval.
+
+8
+00:00:24,310 --> 00:00:27,510
+Participants enter through study-specific consent, then continue into
+
+9
+00:00:27,510 --> 00:00:29,910
+the experience assigned to their condition.
+
+10
+00:00:29,910 --> 00:00:33,162
+The responsive feed supports scrolling, article views, and
+
+11
+00:00:33,162 --> 00:00:36,820
+like, share, or save controls while recording each interaction.
+
+12
+00:00:36,820 --> 00:00:40,787
+The configured survey follows naturally, supporting Likert, choice,
+
+13
+00:00:40,787 --> 00:00:42,770
+and optional free-text questions.
+
+14
+00:00:42,770 --> 00:00:45,865
+Back in the researcher workspace, participant and session
+
+15
+00:00:45,865 --> 00:00:48,960
+summaries show progress while keeping preview records separate.
+
+16
+00:00:48,960 --> 00:00:52,746
+Finally, NewsLab exports events, participants, exposures, and survey
+
+17
+00:00:52,746 --> 00:00:56,531
+responses as structured CSV files with a data
+
+18
+00:00:56,531 --> 00:00:58,897
+dictionary. Researchers define the questions;
+
+19
+00:00:58,897 --> 00:01:00,790
+NewsLab runs the workflow.
