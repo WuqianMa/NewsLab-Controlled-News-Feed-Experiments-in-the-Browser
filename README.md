@@ -105,6 +105,16 @@ NewsLab stores pseudonymous participant and session identifiers, optional recrui
 
 Pseudonymous does not mean anonymous. Detailed behavior, timestamps, device information, and recruitment identifiers can become identifying when combined. Treat both the database and exports as sensitive research data.
 
+## Login-free interactive showcase (no database needed)
+
+**[Open the standalone showcase source](showcase/)** — a static, interactive portfolio demonstration with fictional study materials.
+
+Visitors can change experiment conditions, preview a news feed, click and react to sample articles, inspect generated events, and download a local CSV. **No login, API keys, persistent database, or Prisma setup is required.** The demonstration uses browser-only state and does not access genuine research records.
+
+To deploy the **login-free version** to Vercel, import this repository and set **Root Directory = `showcase`** and **Framework Preset = Other**; leave the build command empty. See [showcase deployment instructions](showcase/README.md).
+
+The original Next.js researcher/admin system remains authenticated. The separate instructions below are for deploying that **full-stack version** with PostgreSQL; they are not required for the login-free portfolio showcase.
+
 ## Public showcase on Vercel
 
 Vercel functions cannot use a repository SQLite file as persistent application storage. NewsLab therefore keeps two explicit Prisma paths:
