@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101926">
+<meta name="description" content="Explore NewsLab's research workflow without signing in. Interactive, browser-only showcase using fictional sample data.">
+<title>NewsLab — Interactive Public Showcase</title>
+<link rel="stylesheet" href="./styles.css">
+<script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="app-shell">
+ <aside class="sidebar" id="sidebar" aria-label="NewsLab sections">
+  <a class="brand" href="#overview"><span class="brand-icon">N<span>.</span></span><span>NewsLab<small>RESEARCH TOOLKIT</small></span></a>
+  <div class="sidebar-label">WORKSPACE</div>
+  <nav class="nav" aria-label="Main navigation">
+    <button data-page="overview" class="nav-item active" aria-current="page"><span class="nav-icon">◫</span> Overview</button>
+    <button data-page="experiments" class="nav-item"><span class="nav-icon">▦</span> Experiments</button>
+    <button data-page="participant" class="nav-item"><span class="nav-icon">◎</span> Participant preview</button>
+    <button data-page="events" class="nav-item"><span class="nav-icon">≋</span> Event explorer</button>
+    <button data-page="export" class="nav-item"><span class="nav-icon">↧</span> Export data</button>
+  </nav>
+  <div class="sidebar-bottom">
+   <div class="mode-card"><span class="mode-dot"></span><strong>Public showcase</strong><p>No sign-in. No account or server database needed.</p></div>
+   <a href="https://github.com/WuqianMa/NewsLab-Controlled-News-Feed-Experiments-in-the-Browser" target="_blank" rel="noopener noreferrer" class="source-link">View source on GitHub ↗</a>
+  </div>
+ </aside>
+ <div class="main-col">
+  <header class="topbar">
+   <div class="crumb"><button class="menu-button" id="menu-button" aria-label="Open menu" aria-expanded="false">☰</button> NEWSLAB <span>/</span> <b id="crumb-title">Overview</b></div>
+   <div class="top-tools"><span class="top-badge"><i></i> Sample workspace</span><button id="reset-button" class="reset-btn" title="Reset in-browser demo state">↻ <span>Reset demo</span></button></div>
+  </header>
+  <main id="main" tabindex="-1">
+   <div class="demo-warning"><b>Interactive showcase, not a live research study.</b> All studies and participants shown here are fictional. Interactions stay in this browser tab, are never sent to a server, and disappear when you refresh. This preview is separate from NewsLab's authenticated application.</div>
+   <section id="page-overview" class="page active">
+    <div class="headline"><div><div class="eyebrow">RESEARCH OPERATIONS / OVERVIEW</div><h1>Make every experiment<br><em>easier to explore.</em></h1><p>From study conditions to participant events — a hands-on preview of the NewsLab research workflow.</p></div><button class="primary" data-goto="participant">Try participant view <span>↗</span></button></div>
+    <div class="stats" id="stats"></div>
+    <div class="section-heading"><div><h2>Example studies</h2><p>Explore a fictional, preconfigured news-feed study.</p></div><button class="secondary" data-goto="experiments">Study setup ↗</button></div>
+    <div class="study-card"><div class="study-cover"><div class="cover-overline">STUDY / 001</div><div class="cover-text">How do people engage<br>with <em>news feeds?</em></div><div class="cover-circles"><span></span><span></span><span></span></div></div><div class="study-detail"><div class="study-top"><span class="pill green">Sample active study</span><span class="tiny">EXAMPLE DATA ONLY</span></div><h3>News-feed information experiment</h3><p>Compare presentation conditions, explore interaction tracking, and preview the participant experience. All examples are synthetic.</p><div class="study-foot"><span>3 conditions</span><span>·</span><span>4 sample articles</span></div><button class="text-link" data-goto="experiments">Inspect configuration ↗</button></div></div>
+    <div class="tip"><span class="tip-star">✳</span><p><b>How this demo works</b><br>Change the display settings in <em>Experiments</em>, test the news feed in <em>Participant preview</em>, then inspect your generated events and download a sample CSV. Nothing is saved remotely.</p></div>
+   </section>
+   <section id="page-experiments" class="page">
+    <div class="page-heading"><div class="eyebrow">DESIGN / EXPERIMENTS</div><h1>Study <em>configuration.</em></h1><p>Adjust the display settings of a sample news-feed condition, then preview the results.</p></div>
+    <div class="two-columns">
+     <div class="panel">
+      <div class="panel-heading"><div><h2>Sample study</h2><p>News-feed information experiment</p></div><span class="pill green">Active demo</span></div>
+      <div class="form-stack">
+       <label for="condition">Experimental condition</label>
+       <select id="condition"><option value="balanced">Balanced feed</option><option value="headlines">Headline-first feed</option><option value="context">Context-rich feed</option></select>
+       <label for="layout">Feed layout</label>
+       <select id="layout"><option value="cards">Vertical cards</option><option value="grid">Two-column grid</option></select>
+       <label for="order">Item order</label>
+       <select id="order"><option value="fixed">Fixed order</option><option value="reverse">Reverse order</option></select>
+       <div class="form-note">This configuration changes the in-browser participant preview. It does not modify the underlying NewsLab project or any database.</div>
+       <button class="primary wide" data-goto="participant">Preview this condition ↗</button>
+      </div>
+     </div>
+     <div class="panel panel-brief">
+       <div class="panel-heading"><div><h2>Research design notes</h2><p>Illustrative workflow</p></div><span class="subtle-icon">✳</span></div>
+       <div class="step-list"><div><span>01</span><div><b>Choose a condition</b><p>Specify how participants encounter the same set of materials.</p></div></div><div><span>02</span><div><b>Preview the feed</b><p>Inspect the reader experience before conducting a study.</p></div></div><div><span>03</span><div><b>Observe interactions</b><p>Track demonstration events and inspect their timestamps.</p></div></div><div><span>04</span><div><b>Export examples</b><p>Download sample CSV records generated in this browser.</p></div></div></div>
+     </div>
+    </div>
+   </section>
+   <section id="page-participant" class="page">
+    <div class="page-heading"><div class="eyebrow">DELIVERY / PARTICIPANT EXPERIENCE</div><h1>Participant <em>preview.</em></h1><p>Browse example articles, open details, and react. Your interactions generate local demonstration events.</p></div>
+    <div class="participant-top"><div><span class="pill">PREVIEW SESSION</span> <strong id="preview-condition">Balanced feed</strong><span class="small-muted" id="preview-layout">Vertical cards</span></div><button class="secondary" id="restart-preview">↻ Restart preview</button></div>
+    <div class="feed-layout" id="feed"></div>
+    <div class="participant-bottom"><span>All article headlines and descriptions are fictional examples.</span><button class="primary" id="complete-preview">Complete preview ✓</button></div>
+    <div id="participant-message" class="participant-message" role="status" aria-live="polite"></div>
+   </section>
+   <section id="page-events" class="page">
+    <div class="page-heading"><div class="eyebrow">OBSERVE / INTERACTIONS</div><h1>Event <em>explorer.</em></h1><p>See demonstration events from this browser tab. No personal identifiers are collected or transmitted.</p></div>
+    <div class="stats" id="event-stats"></div>
+    <div class="panel table-panel"><div class="panel-heading"><div><h2>Local event stream</h2><p>Generated by actions in the participant preview</p></div><button class="secondary" id="clear-events">Clear events</button></div><div class="table-wrap"><table><thead><tr><th>Time</th><th>Event</th><th>Content</th><th>Condition</th></tr></thead><tbody id="event-table"></tbody></table></div></div>
+   </section>
+   <section id="page-export" class="page">
+    <div class="page-heading"><div class="eyebrow">EXPORT / RESEARCH DATA</div><h1>Structured <em>outputs.</em></h1><p>Inspect and export a CSV of the demonstration events you generated in this browser.</p></div>
+    <div class="two-columns">
+     <div class="panel export-panel"><div class="export-icon">↧</div><h2>Interaction events</h2><p>A tidy CSV with event type, timestamp, example article ID, and chosen condition. Data exists only in this tab.</p><div class="export-count"><span id="export-count">0</span> generated events</div><button class="primary wide" id="export-csv">Download local CSV ↗</button></div>
+     <div class="panel"><div class="panel-heading"><div><h2>Data dictionary</h2><p>Fields included in the example export</p></div></div><div class="dictionary"><div><code>timestamp</code><span>ISO date and time of interaction</span></div><div><code>event_type</code><span>Opened article, reaction, or completion</span></div><div><code>article_id</code><span>Fictional content identifier</span></div><div><code>condition</code><span>Chosen example feed condition</span></div><div><code>layout</code><span>Preview layout at time of event</span></div></div></div>
+    </div>
+   </section>
+  </main>
+  <footer><span>NEWSLAB / INTERACTIVE SHOWCASE</span><span>Research prototype · Fictional demo data · <a href="https://github.com/WuqianMa/NewsLab-Controlled-News-Feed-Experiments-in-the-Browser" target="_blank" rel="noopener noreferrer">Full source ↗</a></span></footer>
+ </div>
+</div>
+</body>
+</html>
