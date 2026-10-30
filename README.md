@@ -2,6 +2,8 @@
 
 NewsLab is a configurable prototype for running controlled news-feed experiments in a web browser. Researchers define the study design; the platform provides the experiment editor, participant experience, behavioral event capture, review workflow, and structured exports.
 
+**[Try the login-free interactive showcase on Vercel](https://my-repo-peach-five.vercel.app/)** — fictional sample content, browser-only demo; the full research application remains authenticated.
+
 ## NewsLab Build Week Pitch
 
 [![Watch the NewsLab Build Week pitch](https://img.youtube.com/vi/W3VDX3_A7b4/maxresdefault.jpg)](https://youtu.be/W3VDX3_A7b4)
